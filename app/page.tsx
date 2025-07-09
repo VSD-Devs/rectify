@@ -48,9 +48,11 @@ export default function Home() {
               <Link href="/" className="text-blue-600 font-semibold">Home</Link>
               <Link href="/services" className="text-slate-700 hover:text-blue-600 transition-colors">Services</Link>
               <Link href="/contact" className="text-slate-700 hover:text-blue-600 transition-colors">Contact</Link>
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                Talk to a Consultant
-              </Button>
+              <Link href="/contact">
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  Talk to a Consultant
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -74,9 +76,11 @@ export default function Home() {
               <Link href="/services" className="block px-3 py-2 text-slate-700 hover:text-blue-600">Services</Link>
               <Link href="/contact" className="block px-3 py-2 text-slate-700 hover:text-blue-600">Contact</Link>
               <div className="px-3 py-2">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                  Talk to a Consultant
-                </Button>
+                <Link href="/contact">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                    Talk to a Consultant
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -467,7 +471,6 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               Why Rectify?
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-teal-600 mx-auto"></div>
           </div>
           
           {/* Flowing layout instead of cards */}
@@ -476,7 +479,7 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row items-center gap-12">
               <div className="lg:w-1/2">
                 <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 transform rotate-3 hover:rotate-6 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300">
                     <Target className="h-10 w-10 text-white" />
                   </div>
                   <div className="absolute -top-2 -right-2 w-6 h-6 bg-teal-400 rounded-full animate-pulse"></div>
@@ -509,7 +512,7 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row-reverse items-center gap-12">
               <div className="lg:w-1/2">
                 <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-teal-600 to-teal-700 rounded-2xl flex items-center justify-center mb-6 transform -rotate-3 hover:-rotate-6 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-teal-600 to-teal-700 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300">
                     <Users className="h-10 w-10 text-white" />
                   </div>
                   <div className="absolute -top-2 -left-2 w-6 h-6 bg-blue-400 rounded-full animate-pulse delay-500"></div>
@@ -542,7 +545,7 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row items-center gap-12">
               <div className="lg:w-1/2">
                 <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-teal-600 rounded-2xl flex items-center justify-center mb-6 transform rotate-2 hover:rotate-4 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-teal-600 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300">
                     <Leaf className="h-10 w-10 text-white" />
                   </div>
                   <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-blue-400 rounded-full animate-pulse delay-1000"></div>
@@ -606,10 +609,12 @@ export default function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4 group shadow-lg">
-                  Talk to a Consultant
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link href="/contact">
+                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4 group shadow-lg">
+                    Talk to a Consultant
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
                 <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-slate-300 hover:bg-slate-50 shadow-lg">
                   View Our Services
                 </Button>
