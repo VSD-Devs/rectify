@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/Footer';
+import Logo from '@/components/Logo';
 import { 
   ArrowRight, 
   Phone,
@@ -36,11 +37,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img 
-                src="/rectify-logo.png" 
-                alt="Rectify Logo" 
-                className="h-20 w-auto" // Changed from h-8 to h-12
-              />
+              <Logo />
             </div>
             
             {/* Desktop Navigation */}
@@ -169,6 +166,14 @@ export default function Home() {
               <p className="text-xl text-slate-600 leading-relaxed">
                 At Rectify, we identify, source, and deliver business-critical talent to the world's most innovative industries. We are business consultants focused on solving today's biggest challenge: finding the right talent.
               </p>
+              <div className="mt-12">
+                <Link href="/services">
+                  <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
+                    View Our Services
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

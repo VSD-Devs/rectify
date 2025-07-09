@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowRight, Linkedin, Twitter, Facebook, Instagram } from 'lucide-react';
+import Logo from './Logo';
 
 const Footer = () => {
   return (
@@ -12,7 +13,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Info */}
           <div className="space-y-4">
-            <img src="/rectify-logo.png" alt="Rectify Logo" className="h-20" />
+            <Logo noLink />
             <p className="text-slate-400 text-sm">
               Solving change through people. Experts in energy recruitment and consultancy.
             </p>

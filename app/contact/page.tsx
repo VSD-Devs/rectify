@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
+import Logo from '@/components/Logo';
 
 export default function Contact() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,13 +52,7 @@ export default function Contact() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center">
-              <img 
-                src="/rectify-logo.png" 
-                alt="Rectify Logo" 
-                className="h-8 w-auto"
-              />
-            </Link>
+            <Logo />
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
