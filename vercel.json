@@ -9,10 +9,5 @@
       }
     }
   ],
-  "framework": "nextjs",
-  "functions": {
-    "api/**/*": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "framework": "nextjs"
 } 
