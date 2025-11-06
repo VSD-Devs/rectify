@@ -3,8 +3,18 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import Footer from '@/components/Footer';
 import Logo from '@/components/Logo';
+import { toast } from 'sonner';
 import { 
   ArrowRight, 
   Phone,
@@ -15,18 +25,97 @@ import {
   Puzzle,
   Target,
   Users,
-  Leaf
+  Leaf,
+  Upload
 } from 'lucide-react';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [isCvModalOpen, setIsCvModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    cv: null as File | null,
+  });
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, files } = e.target;
+    if (name === 'cv' && files && files[0]) {
+      const file = files[0];
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        toast.error('File too large', {
+          description: 'Please upload a file smaller than 10MB.',
+        });
+        return;
+      }
+      setFormData({ ...formData, cv: file });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleSubmitCv = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.cv) {
+      toast.error('Missing information', {
+        description: 'Please fill in all required fields and upload your CV.',
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const submitFormData = new FormData();
+      submitFormData.append('name', formData.name);
+      submitFormData.append('email', formData.email);
+      if (formData.phone) {
+        submitFormData.append('phone', formData.phone);
+      }
+      submitFormData.append('cv', formData.cv);
+
+      const response = await fetch('/api/submit-cv', {
+        method: 'POST',
+        body: submitFormData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit CV');
+      }
+
+      toast.success('CV submitted successfully', {
+        description: 'Thank you for your submission. We will be in touch soon.',
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        cv: null,
+      });
+      setIsCvModalOpen(false);
+    } catch (error) {
+      toast.error('Error', {
+        description: error instanceof Error ? error.message : 'Failed to submit CV. Please try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -35,7 +124,7 @@ export default function Home() {
         scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-16 md:h-20">
             <div className="flex items-center">
               <Logo />
             </div>
@@ -52,29 +141,49 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile menu button - larger touch target */}
             <div className="md:hidden">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="h-11 w-11 min-h-[44px] min-w-[44px] p-0 flex items-center justify-center"
+                aria-label="Toggle menu"
               >
-                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - improved spacing and touch targets */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-t">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link href="/" className="block px-3 py-2 text-blue-600 font-semibold">Home</Link>
-              <Link href="/services" className="block px-3 py-2 text-slate-700 hover:text-blue-600">Services</Link>
-              <Link href="/contact" className="block px-3 py-2 text-slate-700 hover:text-blue-600">Contact</Link>
-              <div className="px-3 py-2">
-                <Link href="/contact">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+          <div className="md:hidden bg-white border-t shadow-lg">
+            <div className="px-4 pt-4 pb-6 space-y-2">
+              <Link 
+                href="/" 
+                className="block px-4 py-3.5 text-blue-600 font-semibold text-base rounded-lg hover:bg-blue-50 transition-colors min-h-[44px] flex items-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                href="/services" 
+                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Services
+              </Link>
+              <Link 
+                href="/contact" 
+                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <div className="pt-2">
+                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-base font-semibold min-h-[48px]">
                     Talk to a Consultant
                   </Button>
                 </Link>
@@ -87,547 +196,486 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-teal-50">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-white to-teal-50">
+        </div>
+        
+        {/* Gradient fade to blend into next section */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-blue-600/5 to-transparent pointer-events-none"></div>
+
+        {/* Animated Tribal Pattern Background */}
+        <div className="absolute inset-0 opacity-[0.15] overflow-hidden">
+          <svg 
+            className="absolute inset-0 w-full h-full translate-y-12" 
+            viewBox="0 0 1200 800" 
+            preserveAspectRatio="xMidYMid slice"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="tribalGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#2563eb" stopOpacity="0.8" />
+                <stop offset="50%" stopColor="#0d9488" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#2563eb" stopOpacity="0.8" />
+              </linearGradient>
+              <linearGradient id="tribalGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#0d9488" stopOpacity="0.7" />
+                <stop offset="50%" stopColor="#2563eb" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#0d9488" stopOpacity="0.7" />
+              </linearGradient>
+            </defs>
+            
+            {/* Flowing Tribal Lines - Layer 1 */}
+            <g className="tribal-layer-1">
+              <path
+                d="M-200,150 Q50,80 250,180 Q450,280 650,200 Q850,120 1050,220 Q1250,320 1450,180 Q1650,40 1850,150"
+                fill="none"
+                stroke="url(#tribalGradient1)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                className="animate-tribal-flow-1"
+              />
+              <path
+                d="M-150,350 Q100,280 350,380 Q600,480 850,400 Q1100,320 1350,420 Q1600,520 1850,380"
+                fill="none"
+                stroke="url(#tribalGradient1)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                className="animate-tribal-flow-2"
+              />
+              <path
+                d="M-100,550 Q200,480 500,580 Q800,680 1100,600 Q1400,520 1700,620 Q2000,720 2300,550"
+                fill="none"
+                stroke="url(#tribalGradient1)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                className="animate-tribal-flow-3"
+              />
+            </g>
+            
+            {/* Flowing Tribal Lines - Layer 2 */}
+            <g className="tribal-layer-2">
+              <path
+                d="M-250,100 Q-50,180 150,120 Q350,60 550,140 Q750,220 950,160 Q1150,100 1350,180 Q1550,260 1750,120"
+                fill="none"
+                stroke="url(#tribalGradient2)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="animate-tribal-flow-4"
+              />
+              <path
+                d="M-200,300 Q50,380 300,320 Q550,260 800,340 Q1050,420 1300,360 Q1550,300 1800,380 Q2050,460 2300,300"
+                fill="none"
+                stroke="url(#tribalGradient2)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="animate-tribal-flow-5"
+              />
+              <path
+                d="M-150,500 Q100,580 400,520 Q700,460 1000,540 Q1300,620 1600,560 Q1900,500 2200,580"
+                fill="none"
+                stroke="url(#tribalGradient2)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="animate-tribal-flow-6"
+              />
+            </g>
+            
+            {/* Additional flowing lines for depth */}
+            <g className="tribal-layer-3">
+              <path
+                d="M-180,250 Q80,200 280,280 Q480,360 680,300 Q880,240 1080,320 Q1280,400 1480,280"
+                fill="none"
+                stroke="url(#tribalGradient1)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeOpacity="0.75"
+                className="animate-tribal-flow-7"
+              />
+              <path
+                d="M-120,450 Q180,400 420,480 Q660,560 900,500 Q1140,440 1380,520 Q1620,600 1920,480"
+                fill="none"
+                stroke="url(#tribalGradient2)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeOpacity="0.7"
+                className="animate-tribal-flow-8"
+              />
+            </g>
+            
+            {/* Decorative Tribal Elements */}
+            <g className="tribal-decorative">
+              <circle cx="200" cy="300" r="4" fill="#2563eb" opacity="0.5" className="animate-tribal-pulse-1" />
+              <circle cx="600" cy="200" r="3.5" fill="#0d9488" opacity="0.5" className="animate-tribal-pulse-2" />
+              <circle cx="1000" cy="400" r="4" fill="#2563eb" opacity="0.5" className="animate-tribal-pulse-3" />
+              <circle cx="400" cy="600" r="3.5" fill="#0d9488" opacity="0.5" className="animate-tribal-pulse-4" />
+              <circle cx="800" cy="500" r="4" fill="#2563eb" opacity="0.5" className="animate-tribal-pulse-5" />
+              <circle cx="1200" cy="250" r="3" fill="#0d9488" opacity="0.5" className="animate-tribal-pulse-6" />
+            </g>
+          </svg>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center mb-1" style={{ marginTop: '20px', marginBottom: '-20px' }}> {/* Adjusted marginBottom to pull it up */}
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center -mt-16 md:-mt-20">
+          <div className="flex justify-center mb-4 sm:mb-3 md:mb-2">
             <img 
               src="/rectify-half-logo.png" 
               alt="Rectify logo element" 
-              className="h-48 w-auto"
+              className="h-28 sm:h-36 md:h-44 lg:h-48 w-auto"
             />
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-2 leading-tight"> {/* Reduced bottom margin */}
-            Your problem,{' '}
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-3 sm:mb-2 md:mb-2 leading-[1.1] md:leading-tight px-2">
+            Connecting{' '}
             <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
-              we solve it.
+              talent with opportunity
             </span>
           </h1>
           
-          <h2 className="text-2xl md:text-3xl text-slate-700 mb-4 font-light">
-            Sourcing the talent of tomorrow's future.
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-slate-700 mb-5 sm:mb-4 md:mb-3 font-light px-4">
+            Sourcing tomorrow's energy sector talent today.
           </h2>
           
-          <p className="text-lg text-slate-600 mb-12 max-w-2xl mx-auto">
-            Experts in energy recruitment and consultancy.
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 mb-7 sm:mb-8 md:mb-10 max-w-2xl mx-auto px-4">
+            Specialists in energy recruitment and talent acquisition.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4 group">
-              Find Talent
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+            <Button 
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700 text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 h-12 sm:h-auto min-h-[48px] w-full sm:w-auto group"
+              onClick={() => setIsCvModalOpen(true)}
+            >
+              Submit CV
+              <Upload className="ml-2 h-5 w-5 group-hover:translate-y-[-2px] transition-transform" />
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-slate-300 hover:bg-slate-50">
-              Work With Us
-            </Button>
+            <Link href="/contact">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 h-12 sm:h-auto min-h-[48px] w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+              >
+                Work With Us
+              </Button>
+            </Link>
           </div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
       </section>
 
-      {/* What We Do Section */}
-      <section id="about" className="py-20 bg-gradient-to-b from-teal-50/30 to-white relative overflow-hidden">
-        {/* Puzzle piece decorations */}
-        <div className="absolute top-10 right-10 w-32 h-32 opacity-5">
-          <svg viewBox="0 0 100 100" className="w-full h-full fill-blue-300">
-            <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-          </svg>
+      {/* Solving Change Banner */}
+      <section className="py-8 sm:py-10 md:py-12 bg-gradient-to-r from-blue-600 via-blue-700 to-teal-600 relative overflow-hidden -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-32 pt-16 sm:pt-20 md:pt-24 lg:pt-28">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=80" 
+            alt=""
+            className="w-full h-full object-cover opacity-20"
+            aria-hidden="true"
+          />
         </div>
-        
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="flex justify-center mb-8">
-              <div className="relative">
-                <div className="w-3 h-3 bg-blue-600 rounded-full absolute -top-1 -left-1"></div>
-                <div className="w-3 h-3 bg-teal-600 rounded-full absolute -top-1 -right-1"></div>
-                <div className="w-3 h-3 bg-blue-400 rounded-full absolute -bottom-1 -left-1"></div>
-                <div className="w-3 h-3 bg-teal-400 rounded-full absolute -bottom-1 -right-1"></div>
-                <div className="w-12 h-12 border-2 border-slate-300 rounded-lg flex items-center justify-center">
-                  <Users className="h-6 w-6 text-slate-600" />
-                </div>
-              </div>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">
-              Solving change through{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
-                people.
-              </span>
-            </h2>
-            <div className="max-w-4xl mx-auto">
-              <p className="text-xl text-slate-600 leading-relaxed">
-                At Rectify, we identify, source, and deliver business-critical talent to the world's most innovative industries. We are business consultants focused on solving today's biggest challenge: finding the right talent.
-              </p>
-              <div className="mt-12">
-                <Link href="/services">
-                  <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
-                    View Our Services
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* People in Action Section */}
-      <section className="py-20 bg-slate-50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left side - Image */}
-            <div className="relative">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800" 
-                  alt="Professional team collaboration in modern office"
-                  className="w-full h-96 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
-              </div>
-              
-              {/* Floating puzzle pieces around image */}
-              <div className="absolute -top-4 -left-4 w-12 h-12 opacity-30">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-blue-400 animate-pulse">
-                  <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-                </svg>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-16 h-16 opacity-20">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-teal-400 animate-pulse delay-1000">
-                  <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-                </svg>
-              </div>
-            </div>
-            
-            {/* Right side - Content */}
-            <div className="space-y-6">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Users className="h-4 w-4 text-white" />
-                </div>
-                <span className="text-blue-600 font-semibold text-sm uppercase tracking-wide">Our Approach</span>
-              </div>
-              
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-                Building tomorrow's energy workforce, today
-              </h3>
-              
-              <p className="text-lg text-slate-600 leading-relaxed">
-                We understand that behind every successful energy project is exceptional talent. Our consultants work closely with industry leaders to identify and place the professionals who will drive sustainable innovation forward.
-              </p>
-              
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center mt-1">
-                    <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900">Strategic Talent Mapping</h4>
-                    <p className="text-slate-600">Identifying key players and emerging talent in renewable energy, oil & gas, and clean technology sectors.</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-1">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900">Cultural Fit Assessment</h4>
-                    <p className="text-slate-600">Ensuring candidates align with your company's mission and values for long-term success.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Expertise Section */}
-      <section className="py-20 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Meet the problem solvers
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Our consultants combine deep industry knowledge with proven recruitment expertise to solve your most complex talent challenges.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Consultant 1 */}
-            <div className="group relative">
-              <div className="relative overflow-hidden rounded-xl shadow-lg">
-                <img 
-                  src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400" 
-                  alt="Senior Energy Recruitment Consultant"
-                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-xl font-bold mb-1">Senior Consultants</h3>
-                  <p className="text-slate-200">15+ years energy sector experience</p>
-                </div>
-              </div>
-              
-              {/* Floating puzzle piece */}
-              <div className="absolute -top-3 -right-3 w-8 h-8 opacity-40 group-hover:opacity-60 transition-opacity">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-blue-500 animate-pulse">
-                  <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-                </svg>
-              </div>
-            </div>
-            
-            {/* Consultant 2 */}
-            <div className="group relative">
-              <div className="relative overflow-hidden rounded-xl shadow-lg">
-                <img 
-                  src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400" 
-                  alt="Renewable Energy Specialist"
-                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-xl font-bold mb-1">Renewable Specialists</h3>
-                  <p className="text-slate-200">Clean energy & sustainability focus</p>
-                </div>
-              </div>
-              
-              {/* Floating puzzle piece */}
-              <div className="absolute -top-3 -right-3 w-8 h-8 opacity-40 group-hover:opacity-60 transition-opacity">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-teal-500 animate-pulse delay-500">
-                  <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-                </svg>
-              </div>
-            </div>
-            
-            {/* Consultant 3 */}
-            <div className="group relative">
-              <div className="relative overflow-hidden rounded-xl shadow-lg">
-                <img 
-                  src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400" 
-                  alt="Executive Search Consultant"
-                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-xl font-bold mb-1">Executive Search</h3>
-                  <p className="text-slate-200">C-suite & leadership placement</p>
-                </div>
-              </div>
-              
-              {/* Floating puzzle piece */}
-              <div className="absolute -top-3 -right-3 w-8 h-8 opacity-40 group-hover:opacity-60 transition-opacity">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-blue-400 animate-pulse delay-1000">
-                  <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Success Stories Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50/30 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left side - Content */}
-            <div className="space-y-8">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
-                  <Target className="h-4 w-4 text-white" />
-                </div>
-                <span className="text-teal-600 font-semibold text-sm uppercase tracking-wide">Success Stories</span>
-              </div>
-              
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-                Connecting talent with purpose-driven organizations
-              </h3>
-              
-              <div className="space-y-6">
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-blue-600 font-bold text-lg">85%</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-2">Placement Success Rate</h4>
-                      <p className="text-slate-600">Our candidates stay with their new companies long-term, creating lasting value for both parties.</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-teal-600 font-bold text-lg">30</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-2">Days Average Placement</h4>
-                      <p className="text-slate-600">Faster time-to-hire without compromising on quality or cultural fit.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Right side - Image */}
-            <div className="relative">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800" 
-                  alt="Successful energy professionals in modern workplace"
-                  className="w-full h-96 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-teal-900/20 to-transparent"></div>
-              </div>
-              
-              {/* Success metrics overlay */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border border-slate-100">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <span className="text-green-600 font-bold">✓</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900">500+ Placements</p>
-                    <p className="text-sm text-slate-600">Across energy sectors</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Floating puzzle pieces */}
-              <div className="absolute -top-4 -right-4 w-10 h-10 opacity-30">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-teal-400 animate-pulse">
-                  <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* Vision Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 via-blue-700 to-teal-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         
-        {/* Puzzle piece network */}
+        {/* Modern geometric pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-16 h-16">
-            <svg viewBox="0 0 100 100" className="w-full h-full fill-white">
-              <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-            </svg>
-          </div>
-          <div className="absolute top-40 right-32 w-20 h-20">
-            <svg viewBox="0 0 100 100" className="w-full h-full fill-white">
-              <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-            </svg>
-          </div>
-          <div className="absolute bottom-32 left-32 w-12 h-12">
-            <svg viewBox="0 0 100 100" className="w-full h-full fill-white">
-              <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-            </svg>
-          </div>
+          <div className="hidden sm:block absolute top-20 left-20 w-32 h-32 border-2 border-white rotate-45"></div>
+          <div className="hidden md:block absolute top-40 right-32 w-24 h-24 border-2 border-white rotate-45"></div>
+          <div className="hidden lg:block absolute bottom-32 left-32 w-40 h-40 border-2 border-white rotate-45"></div>
+          <div className="hidden sm:block absolute bottom-20 right-20 w-28 h-28 border-2 border-white rotate-45"></div>
           
           {/* Connecting lines */}
-          <svg className="absolute inset-0 w-full h-full">
-            <line x1="20%" y1="30%" x2="70%" y2="50%" stroke="white" strokeWidth="1" strokeDasharray="5,5" opacity="0.3"/>
-            <line x1="70%" y1="50%" x2="40%" y2="80%" stroke="white" strokeWidth="1" strokeDasharray="5,5" opacity="0.3"/>
+          <svg className="absolute inset-0 w-full h-full hidden md:block">
+            <line x1="15%" y1="25%" x2="75%" y2="45%" stroke="white" strokeWidth="1.5" strokeDasharray="8,8" opacity="0.3"/>
+            <line x1="75%" y1="45%" x2="35%" y2="75%" stroke="white" strokeWidth="1.5" strokeDasharray="8,8" opacity="0.3"/>
           </svg>
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center mb-8">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <Leaf className="h-8 w-8 text-white" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white leading-relaxed mb-3 sm:mb-4 px-2">
+            Solving change through people.
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed mb-4 sm:mb-5 md:mb-6 px-4">
+            At Rectify, we identify, source, and deliver business-critical talent to the world's most innovative industries. We are business consultants focused on solving today's biggest challenge: finding the right talent.
+          </p>
+          <div className="mt-4 sm:mt-5 md:mt-6 px-4">
+            <Link href="/services">
+              <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 h-12 sm:h-auto min-h-[48px] w-full sm:w-auto border-2 border-white text-white bg-transparent hover:bg-white hover:text-blue-600 transition-all shadow-md hover:shadow-lg">
+                View Our Services
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Approach Section */}
+      <section className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.02]">
+          <div className="absolute top-0 left-1/4 w-96 h-96 border-2 border-blue-300 rounded-full"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 border-2 border-teal-300 rounded-full"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-10 sm:mb-12 md:mb-14 lg:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4 sm:mb-5 md:mb-6 px-4">
+              Our Approach
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
+              We understand that behind every successful project is exceptional talent. Our consultants work closely with industry leaders to identify and place the professionals who will drive innovation forward.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
+            {/* Card 1 */}
+            <div className="group relative">
+              <div className="relative bg-white rounded-2xl p-0 shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 h-full flex flex-col overflow-hidden">
+                {/* Gradient accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-teal-600 rounded-t-2xl z-10"></div>
+                
+                {/* Image */}
+                <div className="relative w-full h-48 sm:h-56 overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" 
+                    alt="Strategic talent mapping"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-transparent"></div>
+                </div>
+                
+                <div className="p-6 sm:p-8 mb-6 flex-1 flex flex-col">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Target className="h-7 w-7 sm:h-8 sm:w-8 text-teal-600" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3 sm:mb-4">Strategic Talent Mapping</h3>
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                    Identifying key players and emerging talent across industries to match your specific needs and organisational goals.
+                  </p>
+                </div>
+                
+                {/* Decorative element */}
+                <div className="mt-auto px-6 sm:px-8 pb-6 sm:pb-8 pt-4 sm:pt-6 border-t border-slate-100">
+                  <div className="flex items-center text-teal-600 text-sm font-semibold">
+                    <span>Learn more</span>
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Card 2 */}
+            <div className="group relative">
+              <div className="relative bg-white rounded-2xl p-0 shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 h-full flex flex-col overflow-hidden">
+                {/* Gradient accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-t-2xl z-10"></div>
+                
+                {/* Image */}
+                <div className="relative w-full h-48 sm:h-56 overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80" 
+                    alt="Cultural fit assessment"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-transparent"></div>
+                </div>
+                
+                <div className="p-6 sm:p-8 mb-6 flex-1 flex flex-col">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Users className="h-7 w-7 sm:h-8 sm:w-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3 sm:mb-4">Cultural Fit Assessment</h3>
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                    Ensuring candidates align with your company's mission and values for long-term success and team cohesion.
+                  </p>
+                </div>
+                
+                {/* Decorative element */}
+                <div className="mt-auto px-6 sm:px-8 pb-6 sm:pb-8 pt-4 sm:pt-6 border-t border-slate-100">
+                  <div className="flex items-center text-blue-600 text-sm font-semibold">
+                    <span>Learn more</span>
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Card 3 */}
+            <div className="group relative">
+              <div className="relative bg-white rounded-2xl p-0 shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 h-full flex flex-col overflow-hidden">
+                {/* Gradient accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-teal-500 to-teal-600 rounded-t-2xl z-10"></div>
+                
+                {/* Image */}
+                <div className="relative w-full h-48 sm:h-56 overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80" 
+                    alt="Business-driven solutions"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-transparent"></div>
+                </div>
+                
+                <div className="p-6 sm:p-8 mb-6 flex-1 flex flex-col">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-50 via-teal-50 to-blue-50 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Puzzle className="h-7 w-7 sm:h-8 sm:w-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3 sm:mb-4">Business-Driven Solutions</h3>
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                    Strategic approach that aligns with your business objectives and growth plans for sustainable success.
+                  </p>
+                </div>
+                
+                {/* Decorative element */}
+                <div className="mt-auto px-6 sm:px-8 pb-6 sm:pb-8 pt-4 sm:pt-6 border-t border-slate-100">
+                  <div className="flex items-center text-blue-600 text-sm font-semibold">
+                    <span>Learn more</span>
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vision Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-r from-blue-600 via-blue-700 to-teal-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        
+        {/* Modern geometric pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="hidden sm:block absolute top-20 left-20 w-32 h-32 border-2 border-white rotate-45"></div>
+          <div className="hidden md:block absolute top-40 right-32 w-24 h-24 border-2 border-white rotate-45"></div>
+          <div className="hidden lg:block absolute bottom-32 left-32 w-40 h-40 border-2 border-white rotate-45"></div>
+          <div className="hidden sm:block absolute bottom-20 right-20 w-28 h-28 border-2 border-white rotate-45"></div>
+          
+          {/* Connecting lines */}
+          <svg className="absolute inset-0 w-full h-full hidden md:block">
+            <line x1="15%" y1="25%" x2="75%" y2="45%" stroke="white" strokeWidth="1.5" strokeDasharray="8,8" opacity="0.3"/>
+            <line x1="75%" y1="45%" x2="35%" y2="75%" stroke="white" strokeWidth="1.5" strokeDasharray="8,8" opacity="0.3"/>
+          </svg>
+        </div>
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex justify-center mb-6 sm:mb-8 md:mb-10">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/30 shadow-xl">
+              <Leaf className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 text-white" />
             </div>
           </div>
           
-          <blockquote className="text-3xl md:text-4xl font-light text-white leading-relaxed">
+          <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-white leading-relaxed px-4">
             "Shaping the future of energy by building a sustainable tomorrow through human capital."
           </blockquote>
         </div>
       </section>
 
-      {/* Why Rectify Section - Flowing Design */}
-      <section className="py-20 bg-slate-50 relative overflow-hidden">
-        {/* Background puzzle elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-5">
-          <div className="absolute top-20 left-10 w-24 h-24">
-            <svg viewBox="0 0 100 100" className="w-full h-full fill-blue-200">
-              <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-            </svg>
-          </div>
-          <div className="absolute bottom-20 right-10 w-32 h-32">
-            <svg viewBox="0 0 100 100" className="w-full h-full fill-teal-200">
-              <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-            </svg>
-          </div>
-        </div>
-        
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Why Rectify?
-            </h2>
-          </div>
-          
-          {/* Flowing layout instead of cards */}
-          <div className="space-y-24">
-            {/* First feature - Left aligned */}
-            <div className="flex flex-col lg:flex-row items-center gap-12">
-              <div className="lg:w-1/2">
-                <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300">
-                    <Target className="h-10 w-10 text-white" />
+      {/* CV Submission Modal */}
+      <Dialog open={isCvModalOpen} onOpenChange={setIsCvModalOpen}>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl sm:text-2xl font-bold text-slate-900">Submit Your CV</DialogTitle>
+            <DialogDescription className="text-sm sm:text-base">
+              Upload your CV and we'll get back to you with opportunities that match your skills.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmitCv} className="space-y-4 sm:space-y-5 mt-4 sm:mt-6">
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name *</Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                required
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="John Doe"
+                className="w-full"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address *</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="john@example.com"
+                className="w-full"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="+44 20 1234 5678"
+                className="w-full"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="cv">Upload CV *</Label>
+              <div className="flex items-center justify-center w-full">
+                <label
+                  htmlFor="cv"
+                  className="flex flex-col items-center justify-center w-full h-28 sm:h-32 border-2 border-slate-300 border-dashed rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors min-h-[112px] touch-manipulation"
+                >
+                  <div className="flex flex-col items-center justify-center pt-4 sm:pt-5 pb-4 sm:pb-6 px-4">
+                    <Upload className="w-7 h-7 sm:w-8 sm:h-8 mb-2 text-slate-400" />
+                    <p className="mb-1 sm:mb-2 text-xs sm:text-sm text-slate-500 text-center">
+                      <span className="font-semibold">Tap to upload</span> or drag and drop
+                    </p>
+                    <p className="text-xs text-slate-500 text-center">PDF, DOC, DOCX (MAX. 10MB)</p>
                   </div>
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-teal-400 rounded-full animate-pulse"></div>
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                  Deep Industry Expertise
-                </h3>
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  Specialized knowledge in energy sector recruitment with deep understanding of industry challenges and opportunities. We don't just find candidates—we solve talent puzzles.
+                  <input
+                    id="cv"
+                    name="cv"
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleInputChange}
+                    className="hidden"
+                    required
+                  />
+                </label>
+              </div>
+              {formData.cv && (
+                <p className="text-sm text-slate-600 mt-2 break-words">
+                  Selected: {formData.cv.name}
                 </p>
-              </div>
-              <div className="lg:w-1/2">
-                <div className="relative">
-                  <div className="w-64 h-64 mx-auto">
-                    <svg viewBox="0 0 200 200" className="w-full h-full">
-                      <defs>
-                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3"/>
-                          <stop offset="100%" stopColor="#0EA5E9" stopOpacity="0.1"/>
-                        </linearGradient>
-                      </defs>
-                      <path d="M40,40 L100,40 C110,30 130,30 140,40 L160,40 L160,100 C170,110 170,130 160,140 L160,160 L100,160 C90,170 70,170 60,160 L40,160 L40,100 C30,90 30,70 40,80 Z" fill="url(#grad1)" className="animate-pulse"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
-
-            {/* Second feature - Right aligned */}
-            <div className="flex flex-col lg:flex-row-reverse items-center gap-12">
-              <div className="lg:w-1/2">
-                <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-teal-600 to-teal-700 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300">
-                    <Users className="h-10 w-10 text-white" />
-                  </div>
-                  <div className="absolute -top-2 -left-2 w-6 h-6 bg-blue-400 rounded-full animate-pulse delay-500"></div>
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                  Business-Driven Recruitment
-                </h3>
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  Strategic approach to talent acquisition that aligns with your business objectives and growth plans. Every piece fits perfectly into your organizational puzzle.
-                </p>
-              </div>
-              <div className="lg:w-1/2">
-                <div className="relative">
-                  <div className="w-64 h-64 mx-auto">
-                    <svg viewBox="0 0 200 200" className="w-full h-full">
-                      <defs>
-                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#14B8A6" stopOpacity="0.3"/>
-                          <stop offset="100%" stopColor="#0D9488" stopOpacity="0.1"/>
-                        </linearGradient>
-                      </defs>
-                      <path d="M40,40 L100,40 C110,30 130,30 140,40 L160,40 L160,100 C170,110 170,130 160,140 L160,160 L100,160 C90,170 70,170 60,160 L40,160 L40,100 C30,90 30,70 40,80 Z" fill="url(#grad2)" className="animate-pulse delay-1000"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
+            
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsCvModalOpen(false)}
+                className="flex-1 h-12 sm:h-auto min-h-[48px] text-base"
+                disabled={isSubmitting}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 h-12 sm:h-auto min-h-[48px] text-base"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit CV'}
+              </Button>
             </div>
-
-            {/* Third feature - Left aligned */}
-            <div className="flex flex-col lg:flex-row items-center gap-12">
-              <div className="lg:w-1/2">
-                <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-teal-600 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300">
-                    <Leaf className="h-10 w-10 text-white" />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-blue-400 rounded-full animate-pulse delay-1000"></div>
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                  Sustainable Talent Solutions
-                </h3>
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  Long-term talent strategies focused on building sustainable teams for the future of energy. We complete the picture for tomorrow's workforce.
-                </p>
-              </div>
-              <div className="lg:w-1/2">
-                <div className="relative">
-                  <div className="w-64 h-64 mx-auto">
-                    <svg viewBox="0 0 200 200" className="w-full h-full">
-                      <defs>
-                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.2"/>
-                          <stop offset="50%" stopColor="#14B8A6" stopOpacity="0.2"/>
-                          <stop offset="100%" stopColor="#0EA5E9" stopOpacity="0.1"/>
-                        </linearGradient>
-                      </defs>
-                      <path d="M40,40 L100,40 C110,30 130,30 140,40 L160,40 L160,100 C170,110 170,130 160,140 L160,160 L100,160 C90,170 70,170 60,160 L40,160 L40,100 C30,90 30,70 40,80 Z" fill="url(#grad3)" className="animate-pulse delay-2000"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Banner */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-teal-50/50 relative overflow-hidden">
-        {/* Subtle decorative elements */}
-        <div className="absolute top-8 right-8 w-24 h-24 opacity-10">
-          <svg viewBox="0 0 100 100" className="w-full h-full fill-blue-300">
-            <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-          </svg>
-        </div>
-        <div className="absolute bottom-8 left-8 w-16 h-16 opacity-10">
-          <svg viewBox="0 0 100 100" className="w-full h-full fill-teal-300">
-            <path d="M20,20 L50,20 C55,15 65,15 70,20 L80,20 L80,50 C85,55 85,65 80,70 L80,80 L50,80 C45,85 35,85 30,80 L20,80 L20,50 C15,45 15,35 20,30 Z"/>
-          </svg>
-        </div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl border border-white/50">
-            <div className="text-center">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
-                  <Puzzle className="h-8 w-8 text-white" />
-                </div>
-              </div>
-              
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                Ready to solve your recruitment challenge?
-              </h2>
-              <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-                Let's connect the right talent with your energy projects. Our consultants are ready to help you build tomorrow's workforce today.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/contact">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-4 group shadow-lg">
-                    Talk to a Consultant
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-slate-300 hover:bg-slate-50 shadow-lg">
-                  View Our Services
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>
