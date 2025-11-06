@@ -196,11 +196,11 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-white to-teal-50">
+        <div className="absolute inset-0 bg-gradient-to-b from-indigo-50 via-blue-50 to-slate-50">
         </div>
         
         {/* Gradient fade to blend into next section */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-blue-600/5 to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none"></div>
 
         {/* Animated Tribal Pattern Background */}
         <div className="absolute inset-0 opacity-[0.15] overflow-hidden">
@@ -313,27 +313,19 @@ export default function Home() {
           </svg>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center -mt-16 md:-mt-20">
-          <div className="flex justify-center mb-4 sm:mb-3 md:mb-2">
-            <img 
-              src="/rectify-half-logo.png" 
-              alt="Rectify logo element" 
-              className="h-28 sm:h-36 md:h-44 lg:h-48 w-auto"
-            />
-          </div>
-          
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-3 sm:mb-2 md:mb-2 leading-[1.1] md:leading-tight px-2">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20 md:pt-0">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-slate-900 mb-3 md:mb-2 leading-[1.1] md:leading-tight px-2">
             Connecting{' '}
             <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
               talent with opportunity
             </span>
           </h1>
           
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-slate-700 mb-5 sm:mb-4 md:mb-3 font-light px-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-slate-700 mb-6 md:mb-4 font-light px-4">
             Sourcing tomorrow's energy sector talent today.
           </h2>
           
-          <p className="text-sm sm:text-base md:text-lg text-slate-600 mb-7 sm:mb-8 md:mb-10 max-w-2xl mx-auto px-4">
+          <p className="text-base sm:text-lg text-slate-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
             Specialists in energy recruitment and talent acquisition.
           </p>
           
@@ -359,7 +351,7 @@ export default function Home() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-pulse"></div>
           </div>
@@ -367,7 +359,7 @@ export default function Home() {
       </section>
 
       {/* Solving Change Banner */}
-      <section className="py-8 sm:py-10 md:py-12 bg-gradient-to-r from-blue-600 via-blue-700 to-teal-600 relative overflow-hidden -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-32 pt-16 sm:pt-20 md:pt-24 lg:pt-28">
+      <section className="py-8 sm:py-10 md:py-12 bg-gradient-to-r from-blue-600 via-blue-700 to-teal-600 relative overflow-hidden pt-16 sm:pt-20 md:pt-24 lg:pt-28">
         {/* Background Image */}
         <div className="absolute inset-0">
           <img 
