@@ -322,11 +322,11 @@ export default function Home() {
           </h1>
           
           <h2 className="text-xl sm:text-2xl md:text-3xl text-slate-700 mb-6 md:mb-4 font-light px-4">
-            Sourcing tomorrow's energy sector talent today.
+            Sourcing tomorrow's renewable energy talent today.
           </h2>
           
           <p className="text-base sm:text-lg text-slate-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            Specialists in energy recruitment and talent acquisition.
+            Specialists in renewable energy recruitment, engineering, and technology talent across the USA, UK, and Europe.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
@@ -390,7 +390,7 @@ export default function Home() {
             Solving change through people.
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed mb-4 sm:mb-5 md:mb-6 px-4">
-            At Rectify, we identify, source, and deliver business-critical talent to the world's most innovative industries. We are business consultants focused on solving today's biggest challenge: finding the right talent.
+            At Rectify, we identify, source, and deliver business-critical talent to the renewable energy sector. Specialising in solar PV, wind, battery energy storage, land acquisition, and ESG, we connect exceptional engineering and technology professionals with forward-thinking organisations across the USA, UK, and Europe.
           </p>
           <div className="mt-4 sm:mt-5 md:mt-6 px-4">
             <Link href="/services">
@@ -417,7 +417,7 @@ export default function Home() {
               Our Approach
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
-              We understand that behind every successful project is exceptional talent. Our consultants work closely with industry leaders to identify and place the professionals who will drive innovation forward.
+              We understand that behind every successful renewable energy project is exceptional talent. Our consultants work closely with industry leaders across solar PV, wind, battery storage, and ESG sectors to identify and place the engineering and technology professionals who will drive the energy transition forward.
             </p>
           </div>
           
@@ -559,7 +559,7 @@ export default function Home() {
           </div>
           
           <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-white leading-relaxed px-4">
-            "Shaping the future of energy by building a sustainable tomorrow through human capital."
+            "Shaping the future of renewable energy by building a sustainable tomorrow through exceptional human capital across engineering, technology, and innovation."
           </blockquote>
         </div>
       </section>

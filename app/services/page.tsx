@@ -21,7 +21,16 @@ import {
   CheckCircle,
   Star,
   Award,
-  Lightbulb
+  Lightbulb,
+  Zap,
+  Wind,
+  Battery,
+  Map,
+  Leaf,
+  Building,
+  Cpu,
+  Bot,
+  Settings
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
@@ -308,11 +317,11 @@ export default function Services() {
           </h1>
           
           <h2 className="text-xl sm:text-2xl md:text-3xl text-slate-700 mb-6 md:mb-4 font-light px-4">
-            Comprehensive recruitment solutions for your talent needs.
+            Comprehensive recruitment solutions for renewable energy talent.
           </h2>
           
           <p className="text-base sm:text-lg text-slate-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            From executive search to strategic talent consulting, we help you build the right team.
+            From executive search to strategic talent consulting, we help you build the right team across renewable energy, engineering, and technology sectors.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
@@ -352,7 +361,7 @@ export default function Services() {
               What We Offer
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
-              Comprehensive recruitment solutions designed to meet your unique talent needs across all levels and specialisations.
+              Comprehensive recruitment solutions designed to meet your unique talent needs across renewable energy, engineering, and technology sectors in the USA, UK, and Europe.
             </p>
           </div>
           
@@ -433,6 +442,151 @@ export default function Services() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Market Specialisms Section */}
+      <section className="py-10 sm:py-12 md:py-14 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3 sm:mb-4 px-4">
+              Market Specialisms
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
+              Deep expertise across renewable energy sectors and supporting disciplines.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {/* Renewable Energy Specialisms */}
+            <div className="bg-gradient-to-br from-teal-50 to-blue-50 rounded-2xl p-6 sm:p-8 border border-teal-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mb-4">
+                <Leaf className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Renewable Energy</h3>
+              <ul className="space-y-2 text-slate-700">
+                <li className="flex items-start">
+                  <Zap className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Solar PV</span>
+                </li>
+                <li className="flex items-start">
+                  <Wind className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Wind</span>
+                </li>
+                <li className="flex items-start">
+                  <Battery className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Battery Energy Storage</span>
+                </li>
+                <li className="flex items-start">
+                  <Map className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Land Acquisition and Permitting</span>
+                </li>
+                <li className="flex items-start">
+                  <Leaf className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>ESG</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Engineering */}
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 sm:p-8 border border-blue-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4">
+                <Building className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Engineering</h3>
+              <ul className="space-y-2 text-slate-700">
+                <li className="flex items-start">
+                  <Building className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Civil Engineering</span>
+                </li>
+                <li className="flex items-start">
+                  <Settings className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Building Services / TGA - Technische Gebäudeausrüstung (Germany)</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Technology */}
+            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 sm:p-8 border border-indigo-100 md:col-span-2 lg:col-span-1">
+              <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4">
+                <Cpu className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Technology</h3>
+              <ul className="space-y-2 text-slate-700">
+                <li className="flex items-start">
+                  <Bot className="h-5 w-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>AI & Robotics</span>
+                </li>
+                <li className="flex items-start">
+                  <Settings className="h-5 w-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Instrumentation and Controls</span>
+                </li>
+                <li className="flex items-start">
+                  <Cpu className="h-5 w-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Automation</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Geographies Section */}
+      <section className="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3 sm:mb-4 px-4">
+              Geographies
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
+              We operate across key markets in the USA, UK, and Europe, connecting talent with opportunities where renewable energy innovation thrives.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100 text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <MapPin className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">USA</h3>
+              <p className="text-slate-600">Comprehensive coverage across North American renewable energy markets.</p>
+            </div>
+            
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100 text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <MapPin className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">UK</h3>
+              <p className="text-slate-600">Deep market knowledge and established networks across the United Kingdom.</p>
+            </div>
+            
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-slate-100 text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <MapPin className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Europe</h3>
+              <p className="text-slate-600">Extensive reach across European markets, including Germany and beyond.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Rec2rec Note */}
+      <section className="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="bg-blue-50 border-l-4 border-blue-600 rounded-lg p-6 sm:p-8">
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <Users className="h-6 w-6 text-blue-600 mt-1" />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">Rec2rec Services</h3>
+                <p className="text-slate-700 leading-relaxed">
+                  Rec2rec services don't fit our culture. However, we will support you in finding the next best recruitment business for your needs.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

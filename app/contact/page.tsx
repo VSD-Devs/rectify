@@ -293,11 +293,11 @@ export default function Contact() {
           </h1>
           
           <h2 className="text-2xl md:text-3xl text-slate-700 mb-4 font-light">
-            Ready to find the right talent for your team?
+            Ready to find the right renewable energy talent for your team?
           </h2>
           
           <p className="text-lg text-slate-600 mb-12 max-w-2xl mx-auto">
-            Fill out the form below and our recruitment consultants will be in touch to discuss your requirements.
+            Fill out the form below and our recruitment consultants will be in touch to discuss your requirements across renewable energy, engineering, and technology sectors.
           </p>
         </div>
 
