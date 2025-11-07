@@ -691,7 +691,7 @@ export default function Services() {
           provider: {
             '@type': 'ProfessionalService',
             name: 'Rectify',
-            url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
+            url: (typeof globalThis.process !== 'undefined' && globalThis.process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
           },
           areaServed: ['US', 'GB', 'EU'],
           serviceType: [
