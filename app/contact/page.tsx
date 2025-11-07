@@ -13,6 +13,7 @@ import {
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Logo from '@/components/Logo';
+import StructuredData from '@/components/StructuredData';
 import { toast } from 'sonner';
 
 export default function Contact() {
@@ -302,15 +303,17 @@ export default function Contact() {
         </div>
 
         {/* Scroll to form arrow */}
-        <button
-          onClick={scrollToForm}
-          className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer group z-20"
-          aria-label="Scroll to contact form"
-        >
-          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-600 border-2 border-blue-700 flex items-center justify-center shadow-xl hover:shadow-2xl transition-all group-hover:bg-blue-700 group-hover:scale-110">
-            <ChevronDown className="h-7 w-7 md:h-8 md:w-8 text-white transition-colors" />
-          </div>
-        </button>
+        <div className="absolute bottom-8 md:bottom-12 left-0 right-0 flex justify-center z-20">
+          <button
+            onClick={scrollToForm}
+            className="animate-bounce cursor-pointer group"
+            aria-label="Scroll to contact form"
+          >
+            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-600 border-2 border-blue-700 flex items-center justify-center shadow-xl hover:shadow-2xl transition-all group-hover:bg-blue-700 group-hover:scale-110">
+              <ChevronDown className="h-7 w-7 md:h-8 md:w-8 text-white transition-colors" />
+            </div>
+          </button>
+        </div>
       </section>
 
       {/* Contact Form Section */}
@@ -428,6 +431,26 @@ export default function Contact() {
       </section>
 
       <Footer />
+      
+      <StructuredData
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          mainEntity: {
+            '@type': 'Organization',
+            name: 'Rectify',
+            url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
+            contactPoint: {
+              '@type': 'ContactPoint',
+              telephone: '+44-123-456-789',
+              contactType: 'Customer Service',
+              email: 'info@rectifyinternational.com',
+              areaServed: ['US', 'GB', 'EU'],
+              availableLanguage: ['en'],
+            },
+          },
+        }}
+      />
     </div>
   );
 }

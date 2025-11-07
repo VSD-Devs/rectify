@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import Footer from '@/components/Footer';
 import Logo from '@/components/Logo';
+import StructuredData from '@/components/StructuredData';
 import { toast } from 'sonner';
 import { 
   ArrowRight, 
@@ -351,7 +352,7 @@ export default function Home() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-6 md:bottom-8 left-0 right-0 flex justify-center animate-bounce">
           <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-pulse"></div>
           </div>
@@ -670,6 +671,39 @@ export default function Home() {
       </Dialog>
 
       <Footer />
+      
+      <StructuredData
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'ProfessionalService',
+          name: 'Rectify',
+          description: 'Specialists in renewable energy recruitment and talent acquisition. Helping energy companies find business-critical talent to build a sustainable future across the USA, UK, and Europe.',
+          url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
+          logo: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
+          image: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
+          telephone: '+44 123 456 789',
+          email: 'info@rectifyinternational.com',
+          address: {
+            '@type': 'PostalAddress',
+            addressCountry: 'GB',
+          },
+          areaServed: ['US', 'GB', 'EU'],
+          serviceType: 'Recruitment Consultancy',
+          specialty: [
+            'Renewable Energy Recruitment',
+            'Solar PV Recruitment',
+            'Wind Energy Recruitment',
+            'Battery Storage Recruitment',
+            'ESG Recruitment',
+            'Engineering Recruitment',
+            'Technology Recruitment',
+          ],
+          sameAs: [
+            'https://www.linkedin.com/company/rectify',
+            'https://twitter.com/rectify',
+          ],
+        }}
+      />
     </div>
   );
 }

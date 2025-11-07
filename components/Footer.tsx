@@ -49,13 +49,41 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-slate-200 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-sm text-slate-500 mb-4 sm:mb-0">
-            &copy; {new Date().getFullYear()} Rectify. All Rights Reserved.
-          </p>
-          <p className="text-sm text-slate-500">
-            Built by <a href="http://www.devora.co.uk" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 underline underline-offset-4 transition-colors">Devora</a>
-          </p>
+        <div className="border-t border-slate-200 mt-12 pt-8">
+          {/* Legal Links */}
+          <div className="flex flex-wrap gap-4 sm:gap-6 mb-6 justify-center sm:justify-start">
+            <Link href="/privacy" className="text-sm text-slate-600 hover:text-blue-600 transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="text-slate-400">|</span>
+            <Link href="/terms" className="text-sm text-slate-600 hover:text-blue-600 transition-colors">
+              Terms & Conditions
+            </Link>
+            <span className="text-slate-400">|</span>
+            <Link href="/cookies" className="text-sm text-slate-600 hover:text-blue-600 transition-colors">
+              Cookie Policy
+            </Link>
+            <span className="text-slate-400">|</span>
+            <button
+              onClick={() => {
+                localStorage.removeItem('cookieConsent');
+                window.location.reload();
+              }}
+              className="text-sm text-slate-600 hover:text-blue-600 transition-colors cursor-pointer"
+            >
+              Manage Cookies
+            </button>
+          </div>
+          
+          {/* Copyright and Credits */}
+          <div className="flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-sm text-slate-500 mb-4 sm:mb-0">
+              &copy; {new Date().getFullYear()} Rectify. All Rights Reserved.
+            </p>
+            <p className="text-sm text-slate-500">
+              Built by <a href="http://www.devora.co.uk" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 underline underline-offset-4 transition-colors">Devora</a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

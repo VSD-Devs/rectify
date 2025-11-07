@@ -35,6 +35,7 @@ import {
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Logo from '@/components/Logo';
+import StructuredData from '@/components/StructuredData';
 
 export default function Services() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -340,7 +341,7 @@ export default function Services() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-6 md:bottom-8 left-0 right-0 flex justify-center animate-bounce">
           <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-pulse"></div>
           </div>
@@ -680,6 +681,65 @@ export default function Services() {
       </section>
 
       <Footer />
+      
+      <StructuredData
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: 'Recruitment Services',
+          description: 'Comprehensive recruitment solutions for renewable energy talent. Executive search, permanent placement, contract recruitment, and talent consulting services.',
+          provider: {
+            '@type': 'ProfessionalService',
+            name: 'Rectify',
+            url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
+          },
+          areaServed: ['US', 'GB', 'EU'],
+          serviceType: [
+            'Executive Search',
+            'Permanent Placement',
+            'Contract & Interim Recruitment',
+            'Talent Consulting',
+          ],
+          hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Recruitment Services',
+            itemListElement: [
+              {
+                '@type': 'Offer',
+                itemOffered: {
+                  '@type': 'Service',
+                  name: 'Executive Search',
+                  description: 'C-suite and senior leadership recruitment for energy companies',
+                },
+              },
+              {
+                '@type': 'Offer',
+                itemOffered: {
+                  '@type': 'Service',
+                  name: 'Permanent Placement',
+                  description: 'Full-time recruitment across all levels',
+                },
+              },
+              {
+                '@type': 'Offer',
+                itemOffered: {
+                  '@type': 'Service',
+                  name: 'Contract & Interim',
+                  description: 'Flexible staffing solutions for project-based work',
+                },
+              },
+              {
+                '@type': 'Offer',
+                itemOffered: {
+                  '@type': 'Service',
+                  name: 'Talent Consulting',
+                  description: 'Strategic workforce planning and talent strategy development',
+                },
+              },
+            ],
+          },
+        }}
+      />
     </div>
   );
 }
