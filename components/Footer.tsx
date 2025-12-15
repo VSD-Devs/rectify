@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="space-y-4">
             <Logo noLink size="large" />
             <p className="text-slate-600 text-sm leading-relaxed">
-              Specialists in renewable energy recruitment and talent acquisition across engineering and technology sectors. Operating in the USA, UK, and Europe.
+              Specialists in energy and infrastructure recruitment and talent acquisition across engineering and technology sectors. Operating in the USA, UK, and Europe.
             </p>
             <div className="flex space-x-4 pt-2">
               <Link href="#" className="text-slate-500 hover:text-blue-600 transition-colors"><Linkedin size={20} /></Link>
@@ -43,7 +43,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start space-x-3">
                 <Phone className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                <a href="tel:+44123456789" className="hover:text-blue-600 transition-colors">+44 123 456 789</a>
+                <a href="tel:+447399836007" className="hover:text-blue-600 transition-colors">+44 7399 836007</a>
               </li>
             </ul>
           </div>

@@ -140,6 +140,12 @@ export default function Home() {
                   Talk to a Consultant
                 </Button>
               </Link>
+              <a href="tel:+447399836007">
+                <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
+                  <Phone className="h-4 w-4 mr-2" />
+                  Call Us
+                </Button>
+              </a>
             </div>
 
             {/* Mobile menu button - larger touch target */}
@@ -182,12 +188,18 @@ export default function Home() {
               >
                 Contact
               </Link>
-              <div className="pt-2">
+              <div className="pt-2 space-y-3">
                 <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
                   <Button className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-base font-semibold min-h-[48px]">
                     Talk to a Consultant
                   </Button>
                 </Link>
+                <a href="tel:+447399836007" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white h-12 text-base font-semibold min-h-[48px]">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call Us
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
@@ -316,18 +328,18 @@ export default function Home() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20 md:pt-0">
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-slate-900 mb-3 md:mb-2 leading-[1.1] md:leading-tight px-2">
-            Connecting{' '}
+            Your problem,{' '}
             <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
-              talent with opportunity
+              we solve it
             </span>
           </h1>
           
           <h2 className="text-xl sm:text-2xl md:text-3xl text-slate-700 mb-6 md:mb-4 font-light px-4">
-            Sourcing tomorrow's renewable energy talent today.
+            Sourcing tomorrow's energy and infrastructure talent today.
           </h2>
           
           <p className="text-base sm:text-lg text-slate-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            Specialists in renewable energy recruitment, engineering, and technology talent across the USA, UK, and Europe.
+            Specialists in energy and infrastructure recruitment. Sourcing talent across the USA, UK, and Europe.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
@@ -391,7 +403,9 @@ export default function Home() {
             Solving change through people.
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed mb-4 sm:mb-5 md:mb-6 px-4">
-            At Rectify, we identify, source, and deliver business-critical talent to the renewable energy sector. Specialising in solar PV, wind, battery energy storage, land acquisition, and ESG, we connect exceptional engineering and technology professionals with forward-thinking organisations across the USA, UK, and Europe.
+            At Rectify, we solve the talent problems that stall energy and infrastructure growth. We partner with developers, operators, investors, and technology-led organisations to deliver business-critical professionals across the full project lifecycle—from site origination and land acquisition through engineering, grid and systems integration, ESG, construction, and long-term asset management.
+
+            By supporting organisations at the forefront of the energy transition, we help unlock constrained pipelines, de-risk investment, and accelerate the delivery of sustainable, resilient infrastructure across the USA, UK, and Europe.
           </p>
           <div className="mt-4 sm:mt-5 md:mt-6 px-4">
             <Link href="/services">
@@ -418,7 +432,7 @@ export default function Home() {
               Our Approach
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
-              We understand that behind every successful renewable energy project is exceptional talent. Our consultants work closely with industry leaders across solar PV, wind, battery storage, and ESG sectors to identify and place the engineering and technology professionals who will drive the energy transition forward.
+              We understand that talent is a critical enabler of growth across energy and infrastructure. Our consultants collaborate with forward-thinking organisations to secure the specialists required to scale delivery, overcome constraints, and advance the energy transition.
             </p>
           </div>
           
@@ -681,7 +695,7 @@ export default function Home() {
           url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
           logo: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
           image: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
-          telephone: '+44 123 456 789',
+          telephone: '+447399836007',
           email: 'info@rectifyinternational.com',
           address: {
             '@type': 'PostalAddress',

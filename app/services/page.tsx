@@ -455,7 +455,7 @@ export default function Services() {
               Market Specialisms
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
-              Deep expertise across renewable energy sectors and supporting disciplines.
+              Deep expertise across energy and infrastructure and supporting disciplines.
             </p>
           </div>
           
@@ -468,24 +468,28 @@ export default function Services() {
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Renewable Energy</h3>
               <ul className="space-y-2 text-slate-700">
                 <li className="flex items-start">
-                  <Zap className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Solar PV</span>
+                  <Battery className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Energy Storage</span>
                 </li>
                 <li className="flex items-start">
                   <Wind className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Wind</span>
+                  <span>Wind – Onshore & Offshore</span>
                 </li>
                 <li className="flex items-start">
-                  <Battery className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Battery Energy Storage</span>
+                  <Zap className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Solar</span>
                 </li>
                 <li className="flex items-start">
-                  <Map className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Land Acquisition and Permitting</span>
+                  <Leaf className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Hydrogen</span>
                 </li>
                 <li className="flex items-start">
                   <Leaf className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
                   <span>ESG</span>
+                </li>
+                <li className="flex items-start">
+                  <Zap className="h-5 w-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Power Delivery</span>
                 </li>
               </ul>
             </div>
@@ -498,37 +502,32 @@ export default function Services() {
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Engineering</h3>
               <ul className="space-y-2 text-slate-700">
                 <li className="flex items-start">
-                  <Building className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Civil Engineering</span>
+                  <Settings className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Automation & Controls</span>
                 </li>
                 <li className="flex items-start">
-                  <Settings className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Building Services / TGA - Technische Gebäudeausrüstung (Germany)</span>
+                  <Building className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Building Services</span>
+                </li>
+                <li className="flex items-start">
+                  <Building className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Civil</span>
+                </li>
+                <li className="flex items-start">
+                  <Cpu className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Data Centers</span>
+                </li>
+                <li className="flex items-start">
+                  <Building className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Architecture</span>
+                </li>
+                <li className="flex items-start">
+                  <Building className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Construction</span>
                 </li>
               </ul>
             </div>
 
-            {/* Technology */}
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 sm:p-8 border border-indigo-100 md:col-span-2 lg:col-span-1">
-              <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4">
-                <Cpu className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Technology</h3>
-              <ul className="space-y-2 text-slate-700">
-                <li className="flex items-start">
-                  <Bot className="h-5 w-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>AI & Robotics</span>
-                </li>
-                <li className="flex items-start">
-                  <Settings className="h-5 w-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Instrumentation and Controls</span>
-                </li>
-                <li className="flex items-start">
-                  <Cpu className="h-5 w-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Automation</span>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </section>
@@ -573,24 +572,6 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Rec2rec Note */}
-      <section className="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="bg-blue-50 border-l-4 border-blue-600 rounded-lg p-6 sm:p-8">
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <Users className="h-6 w-6 text-blue-600 mt-1" />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">Rec2rec Services</h3>
-                <p className="text-slate-700 leading-relaxed">
-                  Rec2rec services don't fit our culture. However, we will support you in finding the next best recruitment business for your needs.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Process Section */}
       <section id="our-process" className="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
