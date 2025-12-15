@@ -220,8 +220,8 @@ export default function CookiePolicy() {
                 </p>
                 <p className="mb-2">
                   <strong>Phone:</strong>{' '}
-                  <a href="tel:+447399836007" className="text-blue-600 hover:text-blue-700 underline underline-offset-2">
-                    +44 7399 836007
+                  <a href="tel:+447772393287" className="text-blue-600 hover:text-blue-700 underline underline-offset-2">
+                    +44 7772 393287
                   </a>
                 </p>
               </div>

@@ -364,7 +364,7 @@ export default function Contact() {
             url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
             contactPoint: {
               '@type': 'ContactPoint',
-              telephone: '+44-123-456-789',
+              telephone: '+447772393287',
               contactType: 'Customer Service',
               email: 'info@rectifyinternational.com',
               areaServed: ['US', 'GB', 'EU'],

@@ -602,7 +602,7 @@ export default function Home() {
           url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
           logo: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
           image: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
-          telephone: '+447399836007',
+          telephone: '+447772393287',
           email: 'info@rectifyinternational.com',
           address: {
             '@type': 'PostalAddress',

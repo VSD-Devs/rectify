@@ -57,8 +57,8 @@ export default function Navigation({ activePage = 'home' }: NavigationProps) {
                 Talk to a Consultant
               </Button>
             </Link>
-            <a href="tel:+447399836007" className="text-slate-700 hover:text-blue-600 transition-colors">
-              Call +44 7399 836007
+            <a href="tel:+447772393287" className="text-slate-700 hover:text-blue-600 transition-colors">
+              Call +44 7772 393287
             </a>
           </div>
 
@@ -109,11 +109,11 @@ export default function Navigation({ activePage = 'home' }: NavigationProps) {
                 </Button>
               </Link>
               <a
-                href="tel:+447399836007"
+                href="tel:+447772393287"
                 className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
                 onClick={closeMenu}
               >
-                Call +44 7399 836007
+                Call +44 7772 393287
               </a>
             </div>
           </div>
