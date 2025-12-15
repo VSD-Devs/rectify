@@ -1,24 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
-  ArrowRight, 
-  Menu,
-  X,
+import {
+  ArrowRight,
   Send,
   Loader2,
   ChevronDown
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
-import Logo from '@/components/Logo';
+import Navigation from '@/components/Navigation';
 import StructuredData from '@/components/StructuredData';
 import { toast } from 'sonner';
 
 export default function Contact() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -29,11 +25,6 @@ export default function Contact() {
     message: ''
   });
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -94,76 +85,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 md:h-20">
-            <Logo />
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-slate-700 hover:text-blue-600 transition-colors">Home</Link>
-              <Link href="/services" className="text-slate-700 hover:text-blue-600 transition-colors">Services</Link>
-              <Link href="/contact" className="text-blue-600 font-semibold">Contact</Link>
-              <Link href="/contact">
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Talk to a Consultant
-                </Button>
-              </Link>
-            </div>
-
-            {/* Mobile menu button - larger touch target */}
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="h-11 w-11 min-h-[44px] min-w-[44px] p-0 flex items-center justify-center"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Navigation - improved spacing and touch targets */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t shadow-lg">
-            <div className="px-4 pt-4 pb-6 space-y-2">
-              <Link 
-                href="/" 
-                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/services" 
-                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Services
-              </Link>
-              <Link 
-                href="/contact" 
-                className="block px-4 py-3.5 text-blue-600 font-semibold text-base rounded-lg hover:bg-blue-50 transition-colors min-h-[44px] flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <div className="pt-2">
-                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-base font-semibold min-h-[48px]">
-                    Talk to a Consultant
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      <Navigation activePage="contact" />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">

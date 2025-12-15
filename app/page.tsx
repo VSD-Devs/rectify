@@ -13,16 +13,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import Footer from '@/components/Footer';
-import Logo from '@/components/Logo';
+import Navigation from '@/components/Navigation';
 import StructuredData from '@/components/StructuredData';
 import { toast } from 'sonner';
-import { 
-  ArrowRight, 
-  Phone,
+import {
+  ArrowRight,
   Mail,
   MapPin,
-  Menu,
-  X,
   Puzzle,
   Target,
   Users,
@@ -31,8 +28,6 @@ import {
 } from 'lucide-react';
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [isCvModalOpen, setIsCvModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -42,11 +37,6 @@ export default function Home() {
     cv: null as File | null,
   });
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
@@ -121,90 +111,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 md:h-20">
-            <div className="flex items-center">
-              <Logo />
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-blue-600 font-semibold">Home</Link>
-              <Link href="/services" className="text-slate-700 hover:text-blue-600 transition-colors">Services</Link>
-              <Link href="/contact" className="text-slate-700 hover:text-blue-600 transition-colors">Contact</Link>
-              <Link href="/contact">
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Talk to a Consultant
-                </Button>
-              </Link>
-              <a href="tel:+447399836007">
-                <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
-                  <Phone className="h-4 w-4 mr-2" />
-                  Call Us
-                </Button>
-              </a>
-            </div>
-
-            {/* Mobile menu button - larger touch target */}
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="h-11 w-11 min-h-[44px] min-w-[44px] p-0 flex items-center justify-center"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Navigation - improved spacing and touch targets */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t shadow-lg">
-            <div className="px-4 pt-4 pb-6 space-y-2">
-              <Link 
-                href="/" 
-                className="block px-4 py-3.5 text-blue-600 font-semibold text-base rounded-lg hover:bg-blue-50 transition-colors min-h-[44px] flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/services" 
-                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Services
-              </Link>
-              <Link 
-                href="/contact" 
-                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <div className="pt-2 space-y-3">
-                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-base font-semibold min-h-[48px]">
-                    Talk to a Consultant
-                  </Button>
-                </Link>
-                <a href="tel:+447399836007" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white h-12 text-base font-semibold min-h-[48px]">
-                    <Phone className="h-4 w-4 mr-2" />
-                    Call Us
-                  </Button>
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      <Navigation activePage="home" />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
