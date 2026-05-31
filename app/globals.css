@@ -369,3 +369,15 @@
 .hero-spline-wrap:not(.hero-spline-wrap--full) .hero-spline canvas {
   min-height: inherit !important;
 }
+
+.hero-spline-wrap--mobile-scroll .hero-spline,
+.hero-spline-wrap--mobile-scroll .hero-spline > div,
+.hero-spline-wrap--mobile-scroll canvas {
+  pointer-events: none !important;
+}
+
+.hero-spline-wrap--mobile-scroll,
+.hero-spline-wrap--mobile-scroll canvas,
+.hero-spline-wrap--mobile-interactive canvas {
+  touch-action: pan-y !important;
+}

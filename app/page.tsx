@@ -234,7 +234,7 @@ export default function Home() {
         </div>
 
         {/* Full-hero interactive Spline layer — sits behind copy and buttons */}
-        <HeroSpline fullSection />
+        <HeroSpline fullSection className="hidden lg:block" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
           <div className="max-w-2xl text-center lg:text-left">
@@ -273,6 +273,11 @@ export default function Home() {
               </Link>
             </div>
           </div>
+
+          <HeroSpline
+            className="mt-8 lg:hidden pointer-events-auto"
+            mobileTouchMode
+          />
         </div>
 
         {/* Scroll indicator */}

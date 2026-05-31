@@ -1,6 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { Hand } from 'lucide-react';
+import { useState } from 'react';
+import type { WheelEvent } from 'react';
 import type { Application } from '@splinetool/runtime';
 
 const HERO_SPLINE_SCENE =
@@ -76,16 +79,31 @@ function configureHeroScene(spline: Application, fullSection: boolean) {
 
 type HeroSplineProps = {
   fullSection?: boolean;
+  className?: string;
+  mobileTouchMode?: boolean;
 };
 
-export default function HeroSpline({ fullSection = false }: HeroSplineProps) {
+export default function HeroSpline({
+  fullSection = false,
+  className = '',
+  mobileTouchMode = false,
+}: HeroSplineProps) {
+  const [isMobileInteractive, setIsMobileInteractive] = useState(false);
   const onLoad = (spline: Application) => configureHeroScene(spline, fullSection);
+  const passWheelToPage = (event: WheelEvent<HTMLDivElement>) => {
+    window.scrollBy({
+      top: event.deltaY,
+      left: event.deltaX,
+      behavior: 'auto',
+    });
+  };
 
   if (fullSection) {
     return (
       <div
-        className="hero-spline-wrap hero-spline-wrap--full absolute inset-0 z-[1] overflow-hidden pointer-events-auto"
+        className={`hero-spline-wrap hero-spline-wrap--full absolute inset-0 z-[1] overflow-hidden pointer-events-auto ${className}`}
         aria-hidden="true"
+        onWheelCapture={passWheelToPage}
       >
         <div className="hero-spline hero-spline--full h-full w-full touch-manipulation cursor-grab active:cursor-grabbing">
           <Spline
@@ -98,8 +116,14 @@ export default function HeroSpline({ fullSection = false }: HeroSplineProps) {
     );
   }
 
+  const touchClass = mobileTouchMode
+    ? isMobileInteractive
+      ? 'hero-spline-wrap--mobile-interactive'
+      : 'hero-spline-wrap--mobile-scroll'
+    : '';
+
   return (
-    <div className="hero-spline-wrap w-full max-w-none overflow-visible">
+    <div className={`hero-spline-wrap relative w-full max-w-none overflow-visible ${touchClass} ${className}`}>
       <div
         className="hero-spline relative z-20 w-full min-h-[22rem] h-[clamp(22rem,58vw,36rem)] sm:min-h-[26rem] sm:h-[clamp(26rem,54vw,40rem)] lg:min-h-[30rem] lg:h-[clamp(30rem,62vh,44rem)] xl:h-[clamp(34rem,68vh,48rem)] touch-manipulation cursor-grab active:cursor-grabbing"
         role="img"
@@ -111,6 +135,21 @@ export default function HeroSpline({ fullSection = false }: HeroSplineProps) {
           className="h-full w-full min-h-[inherit] pointer-events-auto"
         />
       </div>
+      {mobileTouchMode && (
+        <button
+          type="button"
+          className={`absolute right-3 top-3 z-30 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 shadow-lg backdrop-blur transition-colors ${
+            isMobileInteractive
+              ? 'bg-blue-600 text-white'
+              : 'bg-white/90 text-slate-700 hover:bg-white'
+          }`}
+          aria-label={isMobileInteractive ? 'Disable cube touch interaction' : 'Enable cube touch interaction'}
+          aria-pressed={isMobileInteractive}
+          onClick={() => setIsMobileInteractive((current) => !current)}
+        >
+          <Hand className="h-5 w-5" aria-hidden="true" />
+        </button>
+      )}
     </div>
   );
 }
