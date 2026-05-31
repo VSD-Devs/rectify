@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import Footer from '@/components/Footer';
+import HeroSpline from '@/components/HeroSpline';
 import Navigation from '@/components/Navigation';
 import StructuredData from '@/components/StructuredData';
 import { toast } from 'sonner';
@@ -114,16 +115,15 @@ export default function Home() {
       <Navigation activePage="home" />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-20 md:pt-28 md:pb-24">
         {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-50 via-blue-50 to-slate-50">
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-indigo-50 via-blue-50 to-slate-50" />
         
         {/* Gradient fade to blend into next section */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none" />
 
         {/* Animated Tribal Pattern Background */}
-        <div className="absolute inset-0 opacity-[0.15] overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.15] overflow-hidden pointer-events-none">
           <svg 
             className="absolute inset-0 w-full h-full translate-y-12" 
             viewBox="0 0 1200 800" 
@@ -233,45 +233,50 @@ export default function Home() {
           </svg>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20 md:pt-0">
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-slate-900 mb-3 md:mb-2 leading-[1.1] md:leading-tight px-2">
-            Your problem,{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
-              we solve it
-            </span>
-          </h1>
-          
-          <h2 className="text-xl sm:text-2xl md:text-3xl text-slate-700 mb-6 md:mb-4 font-light px-4">
-            Sourcing tomorrow's energy and infrastructure talent today.
-          </h2>
-          
-          <p className="text-base sm:text-lg text-slate-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            Specialists in energy and infrastructure recruitment. Sourcing talent across the USA, UK, and Europe.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-            <Button 
-              size="lg" 
-              className="bg-blue-600 hover:bg-blue-700 text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 h-12 sm:h-auto min-h-[48px] w-full sm:w-auto group"
-              onClick={() => setIsCvModalOpen(true)}
-            >
-              Submit CV
-              <Upload className="ml-2 h-5 w-5 group-hover:translate-y-[-2px] transition-transform" />
-            </Button>
-            <Link href="/contact">
+        {/* Full-hero interactive Spline layer — sits behind copy and buttons */}
+        <HeroSpline fullSection />
+
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
+          <div className="max-w-2xl text-center lg:text-left">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold text-slate-900 mb-3 md:mb-4 leading-[1.1]">
+              Your problem,{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
+                we solve it
+              </span>
+            </h1>
+            
+            <h2 className="text-xl sm:text-2xl md:text-3xl text-slate-700 mb-6 font-light">
+              Sourcing tomorrow&apos;s energy and infrastructure talent today.
+            </h2>
+            
+            <p className="text-base sm:text-lg text-slate-600 mb-8 max-w-xl mx-auto lg:mx-0">
+              Specialists in energy and infrastructure recruitment. Sourcing talent across the USA, UK, and Europe.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pointer-events-auto relative z-20">
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 h-12 sm:h-auto min-h-[48px] w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                className="bg-blue-600 hover:bg-blue-700 text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 h-12 sm:h-auto min-h-[48px] w-full sm:w-auto group"
+                onClick={() => setIsCvModalOpen(true)}
               >
-                Work With Us
+                Submit CV
+                <Upload className="ml-2 h-5 w-5 group-hover:translate-y-[-2px] transition-transform" />
               </Button>
-            </Link>
+              <Link href="/contact" className="w-full sm:w-auto pointer-events-auto">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 h-12 sm:h-auto min-h-[48px] w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                >
+                  Work With Us
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-6 md:bottom-8 left-0 right-0 flex justify-center animate-bounce">
+        <div className="absolute bottom-6 md:bottom-8 left-0 right-0 z-10 flex justify-center animate-bounce pointer-events-none">
           <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-pulse"></div>
           </div>

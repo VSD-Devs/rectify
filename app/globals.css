@@ -332,3 +332,40 @@
 .animate-tribal-pulse-6 {
   animation: tribal-pulse-6 3.6s ease-in-out infinite;
 }
+
+/* Spline hero */
+.hero-spline-wrap,
+.hero-spline {
+  overflow: visible;
+}
+
+.hero-spline-wrap--full,
+.hero-spline-wrap--full .hero-spline--full {
+  overflow: hidden;
+}
+
+.hero-spline > div,
+.hero-spline--full > div {
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+.hero-spline-wrap:not(.hero-spline-wrap--full) .hero-spline > div {
+  min-height: inherit !important;
+  overflow: visible !important;
+}
+
+.hero-spline canvas,
+.hero-spline--full canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  background: transparent !important;
+  touch-action: manipulation;
+  pointer-events: auto;
+}
+
+.hero-spline-wrap:not(.hero-spline-wrap--full) .hero-spline canvas {
+  min-height: inherit !important;
+}
