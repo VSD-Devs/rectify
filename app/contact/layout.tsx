@@ -4,7 +4,7 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rectifyinternationa
 
 export const metadata: Metadata = {
   title: 'Contact Us - Get in Touch',
-  description: 'Contact Rectify for renewable energy recruitment services. Get in touch with our consultants to discuss your talent needs across solar PV, wind, battery storage, and ESG sectors.',
+  description: 'Contact Rectify for recruitment services. Get in touch with our consultants to discuss your talent needs across engineering, infrastructure, and technology sectors.',
   keywords: [
     'contact recruitment consultant',
     'energy recruitment contact',
@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Contact Us - Get in Touch | Rectify',
-    description: 'Contact Rectify for renewable energy recruitment services. Get in touch with our consultants to discuss your talent needs.',
+    description: 'Contact Rectify for recruitment services. Get in touch with our consultants to discuss your talent needs.',
     url: `${baseUrl}/contact`,
     type: 'website',
   },
   twitter: {
     title: 'Contact Us - Get in Touch | Rectify',
-    description: 'Contact Rectify for renewable energy recruitment services.',
+    description: 'Contact Rectify for recruitment services.',
   },
   alternates: {
     canonical: `${baseUrl}/contact`,
