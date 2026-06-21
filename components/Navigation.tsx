@@ -57,9 +57,14 @@ export default function Navigation({ activePage = 'home' }: NavigationProps) {
                 Talk to a Consultant
               </Button>
             </Link>
-            <a href="tel:+447772393287" className="text-slate-700 hover:text-blue-600 transition-colors">
-              Call +44 7772 393287
-            </a>
+            <div className="flex flex-col text-sm leading-snug">
+              <a href="tel:+447399836007" className="text-slate-700 hover:text-blue-600 transition-colors">
+                07399 836 007
+              </a>
+              <a href="tel:+17865791193" className="text-slate-700 hover:text-blue-600 transition-colors">
+                +1 (786) 579-1193
+              </a>
+            </div>
           </div>
 
           {/* Mobile menu button - larger touch target */}
@@ -109,11 +114,18 @@ export default function Navigation({ activePage = 'home' }: NavigationProps) {
                 </Button>
               </Link>
               <a
-                href="tel:+447772393287"
+                href="tel:+447399836007"
                 className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
                 onClick={closeMenu}
               >
-                Call +44 7772 393287
+                Call 07399 836 007 (UK)
+              </a>
+              <a
+                href="tel:+17865791193"
+                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
+                onClick={closeMenu}
+              >
+                Call +1 (786) 579-1193 (US)
               </a>
             </div>
           </div>

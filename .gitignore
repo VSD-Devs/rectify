@@ -10,7 +10,11 @@
 
 # next.js
 /.next/
+/.next.nosync/
 /out/
+
+# local dev deps (symlinked node_modules)
+/.deps.nosync/
 
 # production
 /build

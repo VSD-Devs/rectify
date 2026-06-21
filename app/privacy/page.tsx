@@ -254,9 +254,15 @@ export default function PrivacyPolicy() {
                   </a>
                 </p>
                 <p className="mb-2">
-                  <strong>Phone:</strong>{' '}
-                  <a href="tel:+447772393287" className="text-blue-600 hover:text-blue-700 underline underline-offset-2">
-                    +44 7772 393287
+                  <strong>Phone (UK):</strong>{' '}
+                  <a href="tel:+447399836007" className="text-blue-600 hover:text-blue-700 underline underline-offset-2">
+                    07399 836 007
+                  </a>
+                </p>
+                <p className="mb-2">
+                  <strong>Phone (US):</strong>{' '}
+                  <a href="tel:+17865791193" className="text-blue-600 hover:text-blue-700 underline underline-offset-2">
+                    +1 (786) 579-1193
                   </a>
                 </p>
               </div>

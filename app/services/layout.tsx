@@ -3,25 +3,29 @@ import type { Metadata } from 'next';
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rectifyinternational.com';
 
 export const metadata: Metadata = {
-  title: 'Our Services - Recruitment Solutions',
-  description: 'Comprehensive recruitment solutions for renewable energy talent. Executive search, permanent placement, contract recruitment, and talent consulting services across the USA, UK, and Europe.',
+  title: 'Our Services',
+  description: 'Specialist talent partnerships for energy, engineering, infrastructure and mission-critical projects. Strategic talent partnerships, specialist search, market mapping and executive search with Rectify International.',
   keywords: [
+    'strategic talent partnerships',
+    'specialist recruitment',
     'executive search',
-    'permanent placement',
-    'contract recruitment',
-    'talent consulting',
-    'renewable energy recruitment services',
-    'energy recruitment solutions',
+    'talent intelligence',
+    'market mapping',
+    'energy recruitment',
+    'infrastructure recruitment',
+    'data centre recruitment',
+    'engineering talent',
+    'mission critical hiring',
   ],
   openGraph: {
-    title: 'Our Services - Recruitment Solutions | Rectify',
-    description: 'Comprehensive recruitment solutions for renewable energy talent. Executive search, permanent placement, contract recruitment, and talent consulting services.',
+    title: 'Our Services | Rectify International',
+    description: 'Specialist talent partnerships for energy, engineering, infrastructure and mission-critical projects. Companies apply to partner with Rectify.',
     url: `${baseUrl}/services`,
     type: 'website',
   },
   twitter: {
-    title: 'Our Services - Recruitment Solutions | Rectify',
-    description: 'Comprehensive recruitment solutions for renewable energy talent.',
+    title: 'Our Services | Rectify International',
+    description: 'Specialist talent partnerships for energy, engineering, infrastructure and mission-critical projects.',
   },
   alternates: {
     canonical: `${baseUrl}/services`,

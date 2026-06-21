@@ -9,12 +9,16 @@ import {
   ChevronDown
 } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
 import StructuredData from '@/components/StructuredData';
 import { toast } from 'sonner';
 
 export default function Contact() {
+  const searchParams = useSearchParams();
+  const isPartnerIntent = searchParams.get('intent') === 'partner';
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -216,11 +220,15 @@ export default function Contact() {
           </h1>
           
           <h2 className="text-2xl md:text-3xl text-slate-700 mb-4 font-light">
-            Ready to find the right renewable energy talent for your team?
+            {isPartnerIntent 
+              ? "Apply to partner with Rectify" 
+              : "Ready to find the right renewable energy talent for your team?"}
           </h2>
           
           <p className="text-lg text-slate-600 mb-12 max-w-2xl mx-auto">
-            Fill out the form below and our recruitment consultants will be in touch to discuss your requirements across renewable energy, engineering, and technology sectors.
+            {isPartnerIntent 
+              ? "Tell us about your hiring needs. If there's a strong fit, we'll recommend the right partnership model to support your goals." 
+              : "Fill out the form below and our recruitment consultants will be in touch to discuss your requirements across renewable energy, engineering, and technology sectors."}
           </p>
         </div>
 
@@ -258,8 +266,14 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="bg-white p-6 sm:p-8 md:p-12 rounded-2xl shadow-lg border border-slate-100">
             <div className="text-center mb-6 sm:mb-8">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2 sm:mb-3">Send us a Message</h2>
-              <p className="text-sm sm:text-base text-slate-600">Fill out the form below and we'll get back to you within 24 hours.</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2 sm:mb-3">
+                {isPartnerIntent ? "Apply to Partner With Rectify" : "Send us a Message"}
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600">
+                {isPartnerIntent 
+                  ? "Share details about your hiring challenge. We'll review and be in touch within 24 hours." 
+                  : "Fill out the form below and we'll get back to you within 24 hours."}
+              </p>
             </div>
             
             <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
@@ -322,7 +336,7 @@ export default function Contact() {
                   onChange={handleInputChange}
                   rows={5}
                   className="block w-full px-4 py-3 border border-slate-300 rounded-lg text-slate-900 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors resize-none"
-                  placeholder="Tell us about your talent challenges and how we can help..."
+                  placeholder={isPartnerIntent ? "Tell us about your hiring needs, project requirements, timelines and any specific challenges..." : "Tell us about your talent challenges and how we can help..."}
                   required
                 ></textarea>
               </div>
@@ -362,14 +376,24 @@ export default function Contact() {
             '@type': 'Organization',
             name: 'Rectify',
             url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
-            contactPoint: {
-              '@type': 'ContactPoint',
-              telephone: '+447772393287',
-              contactType: 'Customer Service',
-              email: 'info@rectifyinternational.com',
-              areaServed: ['US', 'GB', 'EU'],
-              availableLanguage: ['en'],
-            },
+            contactPoint: [
+              {
+                '@type': 'ContactPoint',
+                telephone: '+447399836007',
+                contactType: 'Customer Service',
+                email: 'info@rectifyinternational.com',
+                areaServed: 'GB',
+                availableLanguage: ['en'],
+              },
+              {
+                '@type': 'ContactPoint',
+                telephone: '+17865791193',
+                contactType: 'Customer Service',
+                email: 'info@rectifyinternational.com',
+                areaServed: 'US',
+                availableLanguage: ['en'],
+              },
+            ],
           },
         }}
       />

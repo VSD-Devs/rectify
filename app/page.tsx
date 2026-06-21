@@ -491,7 +491,7 @@ export default function Home() {
           </div>
           
           <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-white leading-relaxed px-4">
-            "Shaping the future of renewable energy by building a sustainable tomorrow through exceptional human capital across engineering, technology, and innovation."
+            "Shaping the future of the energy transition by building a sustainable tomorrow through exceptional human capital across engineering, technology, and innovation."
           </blockquote>
         </div>
       </section>
@@ -612,7 +612,7 @@ export default function Home() {
           url: (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com',
           logo: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
           image: `${(typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rectifyinternational.com'}/rectify-logo.png`,
-          telephone: '+447772393287',
+          telephone: ['+447399836007', '+17865791193'],
           email: 'info@rectifyinternational.com',
           address: {
             '@type': 'PostalAddress',
