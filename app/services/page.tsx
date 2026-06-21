@@ -261,7 +261,7 @@ export default function Services() {
           </svg>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20 md:pt-0">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-24 md:pt-0">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 mb-4 leading-[1.1] tracking-[-0.02em]">
             Our Services
           </h1>

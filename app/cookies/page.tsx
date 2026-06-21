@@ -15,7 +15,7 @@ export default function CookiePolicy() {
       <Navigation />
 
       {/* Content */}
-      <main className="pt-24 md:pt-32 pb-16">
+      <main className="pt-28 md:pt-36 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Link */}
           <Link

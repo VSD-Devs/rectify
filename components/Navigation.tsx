@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import Logo from './Logo';
 
 interface NavigationProps {
@@ -23,9 +23,35 @@ export default function Navigation({ activePage = 'home' }: NavigationProps) {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
-    }`}>
+    <header className="fixed top-0 w-full z-50">
+      {/* Phone banner */}
+      <div className="bg-blue-700 text-white text-xs sm:text-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-center sm:justify-end gap-x-4 gap-y-1">
+          <a
+            href="tel:+447399836007"
+            className="inline-flex items-center gap-1.5 hover:text-blue-100 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm"
+          >
+            <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            <span>
+              07399 836 007 <span className="text-blue-200">(UK)</span>
+            </span>
+          </a>
+          <span className="hidden sm:inline text-blue-400" aria-hidden="true">|</span>
+          <a
+            href="tel:+17865791193"
+            className="inline-flex items-center gap-1.5 hover:text-blue-100 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white rounded-sm"
+          >
+            <Phone className="h-3.5 w-3.5 shrink-0 sm:hidden" aria-hidden="true" />
+            <span>
+              +1 (786) 579-1193 <span className="text-blue-200">(US)</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <nav className={`w-full transition-all duration-300 ${
+        scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           <div className="flex items-center">
@@ -57,14 +83,6 @@ export default function Navigation({ activePage = 'home' }: NavigationProps) {
                 Talk to a Consultant
               </Button>
             </Link>
-            <div className="flex flex-col text-sm leading-snug">
-              <a href="tel:+447399836007" className="text-slate-700 hover:text-blue-600 transition-colors">
-                07399 836 007
-              </a>
-              <a href="tel:+17865791193" className="text-slate-700 hover:text-blue-600 transition-colors">
-                +1 (786) 579-1193
-              </a>
-            </div>
           </div>
 
           {/* Mobile menu button - larger touch target */}
@@ -113,24 +131,11 @@ export default function Navigation({ activePage = 'home' }: NavigationProps) {
                   Talk to a Consultant
                 </Button>
               </Link>
-              <a
-                href="tel:+447399836007"
-                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
-                onClick={closeMenu}
-              >
-                Call 07399 836 007 (UK)
-              </a>
-              <a
-                href="tel:+17865791193"
-                className="block px-4 py-3.5 text-slate-700 hover:text-blue-600 text-base rounded-lg hover:bg-slate-50 transition-colors min-h-[44px] flex items-center"
-                onClick={closeMenu}
-              >
-                Call +1 (786) 579-1193 (US)
-              </a>
             </div>
           </div>
         </div>
       )}
     </nav>
+    </header>
   );
 }

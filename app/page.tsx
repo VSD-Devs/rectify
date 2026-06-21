@@ -115,7 +115,7 @@ export default function Home() {
       <Navigation activePage="home" />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-20 md:pt-28 md:pb-24">
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20 md:pt-32 md:pb-24">
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-indigo-50 via-blue-50 to-slate-50" />
         
